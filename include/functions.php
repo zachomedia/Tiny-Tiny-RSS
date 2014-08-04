@@ -813,6 +813,10 @@
 		if (isset($_COOKIE[session_name()])) {
 		   setcookie(session_name(), '', time()-42000, '/');
 		}
+
+		foreach (PluginHost::getInstance()->get_hooks(PluginHost::HOOK_AUTH_USER) as $plugin) {
+			$plugin->logout();	
+		}
 	}
 
 	function validate_csrf($csrf_token) {

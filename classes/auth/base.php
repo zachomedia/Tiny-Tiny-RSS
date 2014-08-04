@@ -14,6 +14,10 @@ class Auth_Base {
 		return false;
 	}
 
+	function logout() {
+		
+	}
+
 	// Auto-creates specified user if allowed by system configuration
 	// Can be used instead of find_user_by_login() by external auth modules
 	function auto_create_user($login, $password = false) {

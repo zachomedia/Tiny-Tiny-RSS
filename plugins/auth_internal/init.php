@@ -191,6 +191,10 @@ class Auth_Internal extends Plugin implements IAuthModule {
 		}
 	}
 
+	function logout() {
+		
+	}
+
 	function api_version() {
 		return 2;
 	}

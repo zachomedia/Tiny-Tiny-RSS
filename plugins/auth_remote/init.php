@@ -78,6 +78,10 @@ class Auth_Remote extends Plugin implements IAuthModule {
 		return false;
 	}
 
+	function logout() {
+		
+	}
+
 	function api_version() {
 		return 2;
 	}
