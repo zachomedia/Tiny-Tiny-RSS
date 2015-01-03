@@ -186,7 +186,7 @@ function search() {
 }
 
 function updateTitle() {
-	var tmp = "Tiny Tiny RSS";
+	var tmp = "Zachary Seguin Feeds";
 
 	if (global_unread > 0) {
 		tmp = "(" + global_unread + ") " + tmp;

@@ -54,7 +54,7 @@
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-	<title>Tiny Tiny RSS</title>
+	<title>Zachary Seguin Feeds</title>
 
 	<script type="text/javascript">
 		var __ttrss_version = "<?php echo VERSION ?>"
@@ -86,7 +86,6 @@
 	</style>
 
 	<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
-	<link rel="icon" type="image/png" sizes="72x72" href="images/favicon-72px.png" />
 
 	<?php
 	foreach (array("lib/prototype.js",
