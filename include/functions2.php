@@ -203,6 +203,26 @@
 		return array($prefixes, $hotkeys);
 	}
 
+	function check_for_update() {
+		if (defined("GIT_VERSION_TIMESTAMP")) {
+			$content = @fetch_file_contents("http://tt-rss.org/version.json");
+
+			if ($content) {
+				$content = json_decode($content, true);
+
+				if ($content && isset($content["changeset"])) {
+					if ((int)GIT_VERSION_TIMESTAMP < (int)$content["changeset"]["timestamp"] &&
+						GIT_VERSION_HEAD != $content["changeset"]["id"]) {
+
+						return $content["changeset"]["id"];
+					}
+				}
+			}
+		}
+
+		return "";
+	}
+
 	function make_runtime_info() {
 		$data = array();
 
@@ -220,6 +240,15 @@
 
 		$data['dep_ts'] = calculate_dep_timestamp();
 		$data['reload_on_ts_change'] = !defined('_NO_RELOAD_ON_TS_CHANGE');
+
+
+		if (CHECK_FOR_UPDATES && $_SESSION["last_version_check"] + 86400 + rand(-1000, 1000) < time()) {
+			$update_result = @check_for_update();
+
+			$data["update_result"] = $update_result;
+
+			$_SESSION["last_version_check"] = time();
+		}
 
 		if (file_exists(LOCK_DIRECTORY . "/update_daemon.lock")) {
 
@@ -246,15 +275,6 @@
 					$data['daemon_stamp'] = $stamp_fmt;
 				}
 			}
-		}
-
-		if ($_SESSION["last_version_check"] + 86400 + rand(-1000, 1000) < time()) {
-				$new_version_details = @check_for_update();
-
-				$data['new_version_available'] = (int) ($new_version_details != false);
-
-				$_SESSION["last_version_check"] = time();
-				$_SESSION["version_data"] = $new_version_details;
 		}
 
 		return $data;
@@ -1017,25 +1037,6 @@
 		}
 
 		return $doc;
-	}
-
-	function check_for_update() {
-		if (CHECK_FOR_NEW_VERSION && $_SESSION['access_level'] >= 10) {
-			$version_url = "http://tt-rss.org/version.php?ver=" . VERSION .
-				"&iid=" . sha1(SELF_URL_PATH);
-
-			$version_data = @fetch_file_contents($version_url);
-
-			if ($version_data) {
-				$version_data = json_decode($version_data, true);
-				if ($version_data && $version_data['version']) {
-					if (version_compare(VERSION_STATIC, $version_data['version']) == -1) {
-						return $version_data;
-					}
-				}
-			}
-		}
-		return false;
 	}
 
 	function catchupArticlesById($ids, $cmode, $owner_uid = false) {
