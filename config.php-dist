@@ -93,6 +93,8 @@
 	// When using CAS, allow for LDAP fallback to allow the use of the API
 	define('AUTH_CAS_USE_LDAP_FOR_API', true);
 	define('AUTH_CAS_LDAP_HOST', 'ldaps://localhost');
+   define('AUTH_CAS_LDAP_BIND_DN', 'cn=tt-rss,ou=Services,dc=localhost');
+   define('AUTH_CAS_LDAP_BIND_PW', 'SecurePassword');
 	define('AUTH_CAS_LDAP_SEARCH_BASE', 'ou=People,dc=localhost');
 	define('AUTH_CAS_LDAP_SEARCH_PARAM', '(uid=$1)');
 
@@ -190,7 +192,7 @@
 
 	define('CHECK_FOR_UPDATES', true);
 	// Check for updates automatically if running Git version
- 
+
 	define('DETECT_ARTICLE_LANGUAGE', false);
 	// Detect article language when updating feeds, presently this is only
 	// used for hyphenation. This may increase amount of CPU time used by

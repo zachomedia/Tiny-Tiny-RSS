@@ -44,6 +44,12 @@ class Auth_CAS extends Plugin implements IAuthModule {
            ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
            ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
 
+           if (defined('AUTH_CAS_LDAP_BIND_DN') && defined('AUTH_CAS_LDAP_BIND_PW'))
+           {
+              $bind = ldap_bind($ldap, AUTH_CAS_LDAP_BIND_DN, AUTH_CAS_LDAP_BIND_PW);
+              if (!$bind) return false;
+           }// End of if
+
            $search_result = ldap_search($ldap, AUTH_CAS_LDAP_SEARCH_BASE, str_replace("$1", $login, AUTH_CAS_LDAP_SEARCH_PARAM), array('dn'));
            if ($search_result === FALSE) return false;
 
