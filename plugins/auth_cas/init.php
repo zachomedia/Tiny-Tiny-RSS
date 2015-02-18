@@ -23,7 +23,7 @@ class Auth_CAS extends Plugin implements IAuthModule {
         if ($this->initialized) return;
 
         phpCAS::client(CAS_VERSION_2_0, AUTH_CAS_SERVER, AUTH_CAS_PORT, AUTH_CAS_CONTEXT);
-        phpCAS::setNoCasServerValidation();
+        phpCAS::setCasServerCACert(AUTH_CAS_CA_SERVER_CERT);
         $this->initialized = true;
     }
 
@@ -62,7 +62,7 @@ class Auth_CAS extends Plugin implements IAuthModule {
            return false;
         }// end of if
 
-        phpCAS::handleLogoutRequests();
+        phpCAS::handleLogoutRequests(true, json_decode(AUTH_CAS_ALLOWED_HOSTS, true));
         phpCAS::forceAuthentication();
 
         return $this->base->auto_create_user(phpCAS::getUser(), $password);
